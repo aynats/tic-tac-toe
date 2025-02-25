@@ -35,24 +35,74 @@ function renderGrid (dimension) {
 function cellClickHandler (row, col) {
     console.log(`Clicked on cell: ${row}, ${col}`);
 
-    if (order === 0 && matrix[row][col] === EMPTY){
+    if (order === 0 && matrix[row][col] === EMPTY && count > 0){
         renderSymbolInCell(CROSS, row, col);
         matrix[row][col] = CROSS;
         order = 1;
         count--;
-        if (count === 0){
-            alert('Победила дружба');
-        }
+        isThereWinner();
     }
-    else if (matrix[row][col] === EMPTY) {
+    else if (matrix[row][col] === EMPTY && count > 0) {
         renderSymbolInCell(ZERO, row, col);
         matrix[row][col] = ZERO;
         order = 0;
         count--;
-        if (count === 0){
-            alert('Победила дружба');
-        }
+        isThereWinner();
     }
+}
+
+function isThereWinner() {
+    if (matrix[0][0] === matrix[0][1] && matrix[0][1] === matrix[0][2]
+        && matrix[0][0] !== EMPTY) {
+        //return matrix[0][0];
+        drawWinner([0, 0], [0, 1], [0, 2]);
+    }
+    else if (matrix[1][0] === matrix[1][1] && matrix[1][1] === matrix[1][2]
+        && matrix[1][0] !== EMPTY) {
+        drawWinner([1, 0], [1, 1], [1, 2]);
+    }
+    else if (matrix[2][0] === matrix[2][1] && matrix[2][1] === matrix[2][2]
+        && matrix[2][0] !== EMPTY) {
+        drawWinner([2, 0], [2, 1], [2, 2]);
+    }
+
+    else if (matrix[0][0] === matrix[1][0] && matrix[1][0] === matrix[2][0]
+        && matrix[0][0] !== EMPTY) {
+        drawWinner([0, 0], [1, 0], [2, 0]);
+    }
+    else if (matrix[0][1] === matrix[1][1] && matrix[1][1]  === matrix[2][1]
+        && matrix[1][1] !== EMPTY) {
+        drawWinner([0, 1], [1, 1], [2, 1]);
+    }
+    else if (matrix[0][2] === matrix[1][2] && matrix[1][2] === matrix[2][2]
+        && matrix[2][2] !== EMPTY) {
+        drawWinner([0, 2], [1, 2], [2, 2]);
+    }
+
+    else if (matrix[0][0] === matrix[1][1] && matrix[1][1] === matrix[2][2]
+        && matrix[2][2] !== EMPTY) {
+        drawWinner([0, 0], [1, 1], [2, 2]);
+    }
+
+    else if (matrix[0][2] === matrix[1][1] && matrix[1][1] === matrix[2][0]
+        && matrix[0][2] !== EMPTY) {
+        drawWinner([0, 2], [1, 1], [2, 0]);
+    }
+
+    else if (count === 0) {
+        alert('Победила дружба');
+    }
+}
+
+function drawWinner(a, b, c) {
+    let c1 = findCell(a[0], a[1]);
+    c1.style.color = "red";
+    let c2 = findCell(b[0], b[1]);
+    c2.style.color = "red";
+    let c3 = findCell(c[0], c[1]);
+    c3.style.color = "red";
+    alert(matrix[a[0]][a[1]]);
+    count = 0;
 }
 
 function renderSymbolInCell (symbol, row, col, color = '#333') {
