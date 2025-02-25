@@ -2,7 +2,13 @@ const CROSS = 'X';
 const ZERO = 'O';
 const EMPTY = ' ';
 
+let order = 0;
+
+const matrix = [[EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY]]
+let count = 9;
+
 const container = document.getElementById('fieldWrapper');
+
 
 startGame();
 addResetListener();
@@ -27,13 +33,26 @@ function renderGrid (dimension) {
 }
 
 function cellClickHandler (row, col) {
-    // Пиши код тут
     console.log(`Clicked on cell: ${row}, ${col}`);
 
-
-    /* Пользоваться методом для размещения символа в клетке так:
+    if (order === 0 && matrix[row][col] === EMPTY){
+        renderSymbolInCell(CROSS, row, col);
+        matrix[row][col] = CROSS;
+        order = 1;
+        count--;
+        if (count === 0){
+            alert('Победила дружба');
+        }
+    }
+    else if (matrix[row][col] === EMPTY) {
         renderSymbolInCell(ZERO, row, col);
-     */
+        matrix[row][col] = ZERO;
+        order = 0;
+        count--;
+        if (count === 0){
+            alert('Победила дружба');
+        }
+    }
 }
 
 function renderSymbolInCell (symbol, row, col, color = '#333') {
